@@ -1,5 +1,5 @@
 {
   "name": "Flutter",
-  "image": "matspfeiffer/flutter:beta",
-  "extensions": ["dart-code.dart-code", "dart-code.flutter"]
+  "dockerFile": "Dockerfile",
+  "extensions": ["dart-code.dart-code", "dart-code.flutter", "ms-azuretools.vscode-docker"]
 }
