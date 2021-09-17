@@ -48,15 +48,15 @@ jobs:
       - run: flutter build ios --release 
       - run: flutter build ipa
 
-     - name: Uplaod to Testlflight
-       uses: Apple-Actions/upload-testflight-build@v1
-         app-path: '/Users/runner/work/doorbell/doorbell/build/ios/iphoneos/Runner.ipa'
+      - name: Uplaod to Testlflight
+        uses: Apple-Actions/upload-testflight-build@v1
+          app-path: '/Users/runner/work/doorbell/doorbell/build/ios/iphoneos/Runner.ipa'
 
-     - name: Publish iOS Artifacts
-       uses: actions/upload-artifact@v1
-       with:
-         name: release-ios
-         path: build-output/ios
+      - name: Publish iOS Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: release-ios
+           path: build-output/ios
 
 
     
