@@ -363,7 +363,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.doorbell),
+          child: Icon(Icons.add),
           onPressed: () async {
             print(
                 'Selecting ${metadataList[selectedDoorbell]} (${audioList[selectedDoorbell]})');
