@@ -37,11 +37,11 @@ jobs:
     - name: 'Build'
       uses: actions/checkout@v2
       uses: actions/setup-java@v1
-        with:
-          java-version: '12.x'
+      with:
+        java-version: '12.x'
       uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '2.0.5'
+      with:
+        flutter-version: '2.0.5'
       - run: flutter pub get
       #- run: flutter test
       - run: flutter build apk
@@ -54,9 +54,9 @@ jobs:
 
      - name: Publish iOS Artifacts
        uses: actions/upload-artifact@v1
-         with:
-           name: release-ios
-           path: build-output/ios
+       with:
+         name: release-ios
+         path: build-output/ios
 
 
     
