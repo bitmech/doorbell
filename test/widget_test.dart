@@ -5,7 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:doorbell/main.dart';
@@ -15,16 +15,8 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('The matrix has reset 0 time(s)'), findsOneWidget);
-    expect(find.text('The matrix has reset 1 time(s)'), findsNothing);
-
     // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(CupertinoIcons.add));
+    await tester.tap(find.byIcon(Icons.doorbell));
     await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('The matrix has reset 0 time(s)'), findsNothing);
-    expect(find.text('The matrix has reset 1 time(s)'), findsOneWidget);
   });
 }
