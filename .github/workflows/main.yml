@@ -15,18 +15,18 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  build_deploy:
     runs-on: macos-latest
     steps:
-    - name: Install Apple Certificate
-      - uses: apple-actions/import-codesign-certs@v1
+      - name: Install Apple Certificate
+        uses: apple-actions/import-codesign-certs@v1
         with:
           p12-file-base64: ${{ secrets.P12_BASE64 }}
           p12-password: ${{ secrets.P12_PASSWORD }}
 
-    - name: 'Download Provisioning Profiles'
-      id: provisioning
-      - uses: apple-actions/download-provisioning-profiles@v1
+      - name: 'Download Provisioning Profiles'
+        id: provisioning
+        uses: apple-actions/download-provisioning-profiles@v1
         with: 
           bundle-id: 'me.shakta.doorbell'
           profile-type: 'IOS_APP_STORE'
@@ -34,12 +34,12 @@ jobs:
           api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
           api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
 
-    - name: 'Build'
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - name: 'Build'
+        uses: actions/checkout@v2
+        uses: actions/setup-java@v1
         with:
           java-version: '12.x'
-      - uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.0.5'
       - run: flutter pub get
@@ -49,14 +49,14 @@ jobs:
       - run: flutter build ipa
 
      - name: Uplaod to Testlflight
-       - uses: Apple-Actions/upload-testflight-build@v1
+       uses: Apple-Actions/upload-testflight-build@v1
          app-path: '/Users/runner/work/doorbell/doorbell/build/ios/iphoneos/Runner.ipa'
 
      - name: Publish iOS Artifacts
-       - uses: actions/upload-artifact@v1
-         with:
-           name: release-ios
-           path: build-output/ios
+       uses: actions/upload-artifact@v1
+       with:
+         name: release-ios
+         path: build-output/ios
 
 
     
