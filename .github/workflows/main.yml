@@ -37,11 +37,12 @@ jobs:
           api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
           api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
 
-      - name: 'Build'
-      - uses: actions/setup-java@v1
+      - name: 'Setup'
+        uses: actions/setup-java@v1
         with:
           java-version: '12.x'
-      - uses: subosito/flutter-action@v1
+      - name: 'Flutter stuff'
+        uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.0.5'
       - run: flutter pub get
