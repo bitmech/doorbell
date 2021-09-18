@@ -53,18 +53,18 @@ jobs:
       - name: Fastlane export to ipa
         uses: maierj/fastlane-action@v1.4.0
         with:
-          lane: export_only
+          lane: closed_beta
           subdirectory: ios
         env:
-          DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
-          DEVELOPER_APP_IDENTIFIER: '${{ secrets.BUNDLE_ID}}'
+          APPLE_ID: '${{ secrets.APP_APPLE_ID }}'
+          BUNDLE_ID: '${{ secrets.BUNDLE_ID}}'
           FASTLANE_APPLE_ID: '${{ secrets.APPLE_ID }}'
           #FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
           MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
           GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
           PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
-          #TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
-          #TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+          TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
 
       - name: Upload to Testlflight
         uses: Apple-Actions/upload-testflight-build@v1
