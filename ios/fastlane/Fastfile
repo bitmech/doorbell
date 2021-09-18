@@ -66,6 +66,10 @@ platform :ios do
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
       export_method: "app-store",
+        provisioningProfiles: { 
+            APPLE_ID => PROVISIONING_PROFILE_SPECIFIER
+        }
+      }
     )
 
     pilot(
