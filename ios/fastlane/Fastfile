@@ -31,6 +31,19 @@ def ensure_temp_keychain(name, password)
 end
 
 platform :ios do
+  lane :export_only do
+    gym(
+      configuration: "Release",
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: { 
+            APPLE_ID => PROVISIONING_PROFILE_SPECIFIER
+        }
+      }
+    )
+
   lane :closed_beta do
     keychain_name = TEMP_KEYCHAIN_USER
     keychain_password = TEMP_KEYCHAIN_PASSWORD
