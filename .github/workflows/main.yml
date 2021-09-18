@@ -50,13 +50,17 @@ jobs:
 
       - name: Uplaod to Testlflight
         uses: Apple-Actions/upload-testflight-build@v1
+        with:
           app-path: '/Users/runner/work/doorbell/doorbell/build/ios/iphoneos/Runner.ipa'
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }} 
 
       - name: Publish iOS Artifacts
         uses: actions/upload-artifact@v1
         with:
           name: release-ios
-           path: build-output/ios
+          path: build-output/ios
 
 
     
