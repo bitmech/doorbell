@@ -53,7 +53,7 @@ jobs:
       - name: Fastlane export to ipa
         uses: maierj/fastlane-action@v1.4.0
         with:
-          lane: export_only 
+          lane: closed_beta
           subdirectory: ios
         env:
           APPSTORE_ISSUER_ID: '${{ secrets.APPSTORE_ISSUER_ID }}'
