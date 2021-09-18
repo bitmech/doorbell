@@ -69,7 +69,6 @@ platform :ios do
         provisioningProfiles: { 
             APPLE_ID => PROVISIONING_PROFILE_SPECIFIER
         }
-      }
     )
 
     pilot(
