@@ -39,7 +39,7 @@ platform :ios do
       export_method: "app-store",
       export_options: {
         provisioningProfiles: { 
-            APPLE_ID => PROVISIONING_PROFILE_SPECIFIER
+            BUNDLE_ID => PROVISIONING_PROFILE_SPECIFIER
         }
       }
     )
@@ -81,7 +81,7 @@ platform :ios do
       export_method: "app-store",
       export_options: {
         provisioningProfiles: { 
-            APPLE_ID => PROVISIONING_PROFILE_SPECIFIER
+            BUNDLE_ID => PROVISIONING_PROFILE_SPECIFIER
         }
       }
     )

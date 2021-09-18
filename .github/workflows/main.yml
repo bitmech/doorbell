@@ -46,16 +46,19 @@ jobs:
           flutter-version: '2.0.5'
       - run: flutter pub get
       #- run: flutter test
-      - run: flutter build apk
+      #- run: flutter build apk
       - run: flutter build ios --release 
       - run: flutter build ipa
       
       - name: Fastlane export to ipa
         uses: maierj/fastlane-action@v1.4.0
         with:
-          lane: closed_beta
+          lane: export_only 
           subdirectory: ios
         env:
+          APPSTORE_ISSUER_ID: '${{ secrets.APPSTORE_ISSUER_ID }}'
+          APPSTORE_KEY_ID: '${{ secrets.APPSTORE_KEY_ID }}'
+          APPSTORE_PRIVATE_KEY: '&{{ secrets.APPSTORE_PRIVATE_KEY }}'
           APPLE_ID: '${{ secrets.APP_APPLE_ID }}'
           BUNDLE_ID: '${{ secrets.BUNDLE_ID}}'
           FASTLANE_APPLE_ID: '${{ secrets.APPLE_ID }}'
