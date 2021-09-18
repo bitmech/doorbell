@@ -58,11 +58,10 @@ jobs:
         env:
           APP_STORE_CONNECT_API_KEY_ISSUER_ID: '${{ secrets.APPSTORE_ISSUER_ID }}'
           APP_STORE_CONNECT_API_KEY_KEY_ID: '${{ secrets.APPSTORE_KEY_ID }}'
-          APP_STORE_CONNECT_API_KEY_KEY: '&{{ secrets.APPSTORE_PRIVATE_KEY }}'
+          APP_STORE_CONNECT_API_KEY_KEY: '${{ secrets.APPSTORE_PRIVATE_KEY }}'
           APPLE_ID: '${{ secrets.APP_APPLE_ID }}'
           BUNDLE_ID: '${{ secrets.BUNDLE_ID}}'
           FASTLANE_APPLE_ID: '${{ secrets.APPLE_ID }}'
-          #FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
           MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
           GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
           PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
