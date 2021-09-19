@@ -64,11 +64,7 @@ platform :ios do
     gym(
       configuration: "Release",
       workspace: "Runner.xcworkspace",
-      scheme: "Runner",
-      export_method: "app-store",
-        provisioningProfiles: { 
-            APP_APPLE_ID => PROVISIONING_PROFILE_SPECIFIER
-        }
+      scheme: "Runner"
     )
 
     pilot(
