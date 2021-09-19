@@ -28,7 +28,7 @@ def ensure_temp_keychain(name, password)
 end
 
 def checkcodesigncerts(name)
-  sh('security', 'find-identity', '-v', '-p', 'codesigning', '~/Library/Keychains/login.keychain-db')
+  sh('security', 'find-identity', '-v', '-p', 'codesigning', '/Users/runner/Library/Keychains/login.keychain-db')
 end
 
 platform :ios do
