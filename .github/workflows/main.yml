@@ -34,7 +34,7 @@ jobs:
       - run: flutter build ios --release --no-codesign
       #- run: flutter build ipa
       
-      - name: Fastlane export to ipa
+      - name: Fastlane (archive, sign, upload to testflight) 
         uses: maierj/fastlane-action@v1.4.0
         with:
           lane: closed_beta
@@ -56,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: release-ios
-          path: build-output/ios
+          path: ios
 
 
     
