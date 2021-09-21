@@ -46,7 +46,7 @@ platform :android do
 
   desc "Deploy a alpha version to Google Play"
   lane :closed_beta do
-    validate_play_store-json_key (
+    validate_play_store_json_key(
       json_key: ENV["ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME"]
     )
     changelog_from_git_commits
