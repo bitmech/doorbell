@@ -28,7 +28,7 @@ jobs:
       - name: android::Configure Keystore
         run: |
           echo "$ANDROID_KEYSTORE_FILE" > keystore.jks.b64
-          base64 -d -i keystore.jks.b64 > "app/$ANDROID_KEYSTORE_FILENAME"
+          base64 -d -i keystore.jks.b64 > "android/app/$ANDROID_KEYSTORE_FILENAME"
           echo "storeFile=$ANDROID_KEYSTORE_FILENAME" >> keystore.properties
           echo "keyAlias=$ANDROID_KEYSTORE_ALIAS" >> keystore.properties
           echo "storePassword=$ANDROID_KEYSTORE_PASSWORD" >> keystore.properties
@@ -43,7 +43,7 @@ jobs:
       - name: android::Create Google Play Config file
         run : |
           echo "$ANDROID_PLAYSTORE_CONFIG_JSON" > play_config.json.b64
-          base64 -d -i play_config.json.b64 > "$ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME"
+          base64 -d -i play_config.json.b64 > "android/$ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME"
         env:
           ANDROID_PLAYSTORE_CONFIG_JSON: ${{ secrets.ANDROID_PLAYSTORE_CONFIG_JSON }}
           ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME: ${{ secrets.ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME }}
