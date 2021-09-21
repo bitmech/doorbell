@@ -73,6 +73,8 @@ platform :ios do
       scheme: "Runner"
     )
 
+    changelog_from_git_commits
+    
     pilot(
       apple_id: "#{APP_APPLE_ID}",
       app_identifier: "#{BUNDLE_ID}",

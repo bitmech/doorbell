@@ -20,7 +20,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: 'Setup Java'
+      - name: 'android::Setup Java'
         uses: actions/setup-java@v1
         with:
           java-version: '12.x'
@@ -30,33 +30,70 @@ jobs:
           flutter-version: '2.0.5'
       - run: flutter pub get
       #- run: flutter test
-      #- run: flutter build apk
-      - run: flutter build ios --release --no-codesign
+      - run: flutter build appbundle --release
+      #- run: flutter build ios --release --no-codesign
       #- run: flutter build ipa
+
+      - name: android::Configure Keystore
+        run: |
+          echo "$ANDROID_KEYSTORE_FILE" > keystore.jks.b64
+          base64 -d -i keystore.jks.b64 > "app/$ANDROID_KEYSTORE_FILENAME"
+          echo "storeFile=$ANDROID_KEYSTORE_FILENAME" >> keystore.properties
+          echo "keyAlias=$ANDROID_KEYSTORE_ALIAS" >> keystore.properties
+          echo "storePassword=$ANDROID_KEYSTORE_PASSWORD" >> keystore.properties
+          echo "keyPassword=$ANDROID_KEYSTORE_KEY_PASSWORD" >> keystore.properties
+        env:
+          ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
+          ANDROID_KEYSTORE_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
+          ANDROID_KEYSTORE_KEY_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_KEY_PASSWORD }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEYSTORE_FILENAME: ${{ secrets.ANDROID_KEYSTORE_FILENAME }}
+
+      - name: android::Create Google Play Config file
+        run : |
+          echo "$ANDROID_PLAYSTORE_CONFIG_JSON" > play_config.json.b64
+          base64 -d -i play_config.json.b64 > "$ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME"
+        env:
+          ANDROID_PLAYSTORE_CONFIG_JSON: ${{ secrets.ANDROID_PLAYSTORE_CONFIG_JSON }}
+          ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME: ${{ secrets.ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME }}
       
-      - name: Fastlane (archive, sign, upload to testflight) 
+      #- name: ios::Fastlane (archive, sign, upload to testflight) 
+      #  uses: maierj/fastlane-action@v1.4.0
+      #  with:
+      #    lane: closed_beta
+      #    subdirectory: ios
+      #  env:
+      #    APP_STORE_CONNECT_API_KEY_ISSUER_ID: '${{ secrets.APPSTORE_ISSUER_ID }}'
+      #    APP_STORE_CONNECT_API_KEY_KEY_ID: '${{ secrets.APPSTORE_KEY_ID }}'
+      #    APP_STORE_CONNECT_API_KEY_KEY: '${{ secrets.APPSTORE_PRIVATE_KEY }}'
+      #    APP_APPLE_ID: '${{ secrets.APP_APPLE_ID }}'
+      #    BUNDLE_ID: '${{ secrets.BUNDLE_ID }}'
+      #    FASTLANE_APPLE_ID: '${{ secrets.APPLE_ID }}'
+      #    MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+      #    GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+      #    PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+      #    TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+      #    TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+
+      #- name: ios::Publish iOS Artifacts
+      #  uses: actions/upload-artifact@v1
+      #  with:
+      #    name: release-ios
+      #    path: ios
+      
+      - name: android::Fastlane (sign, upload to google play) 
         uses: maierj/fastlane-action@v1.4.0
         with:
           lane: closed_beta
-          subdirectory: ios
+          subdirectory: android
         env:
-          APP_STORE_CONNECT_API_KEY_ISSUER_ID: '${{ secrets.APPSTORE_ISSUER_ID }}'
-          APP_STORE_CONNECT_API_KEY_KEY_ID: '${{ secrets.APPSTORE_KEY_ID }}'
-          APP_STORE_CONNECT_API_KEY_KEY: '${{ secrets.APPSTORE_PRIVATE_KEY }}'
-          APP_APPLE_ID: '${{ secrets.APP_APPLE_ID }}'
-          BUNDLE_ID: '${{ secrets.BUNDLE_ID }}'
-          FASTLANE_APPLE_ID: '${{ secrets.APPLE_ID }}'
-          MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
-          GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
-          PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
-          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
-          TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+          ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
+          ANDROID_KEYSTORE_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
+          ANDROID_KEYSTORE_KEY_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_KEY_PASSWORD }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEYSTORE_FILENAME: ${{ secrets.ANDROID_KEYSTORE_FILENAME }}
+          ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME: ${{ ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME }}
 
-      - name: Publish iOS Artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: release-ios
-          path: ios
 
 
     
