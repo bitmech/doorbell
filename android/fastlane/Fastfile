@@ -46,12 +46,8 @@ platform :android do
 
   desc "Deploy a alpha version to Google Play"
   lane :closed_beta do
-    gradle(
-    task: "bundle",
-    build_type: 'Release'
-    )
     changelog_from_git_commits
-    supply(track: "alpha", aab:"../build/app/outputs/bundle/release/app.aab")
+    supply(track: "alpha", aab:"../build/app/outputs/bundle/release/app-release.aab")
     upload_to_play_store
   end
 end
