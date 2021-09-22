@@ -55,7 +55,8 @@ platform :android do
             skip_upload_metadata: true,
             skip_upload_images: true,
             skip_upload_screenshots: true,
-            skip_upload_apk: true)
+            skip_upload_apk: true,
+            json_key: ENV["ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME"])
     upload_to_play_store
   end
 end
