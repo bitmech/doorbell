@@ -90,6 +90,6 @@ platform :ios do
   end
 
   lane :cleanup do
-    delete_temp_keychain(keychain_name)
+    delete_temp_keychain(TEMP_KEYCHAIN_USER)
   end
 end
