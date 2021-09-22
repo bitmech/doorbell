@@ -98,7 +98,7 @@ jobs:
       - name: ios::testflight[fastlane] 
         uses: maierj/fastlane-action@v1.4.0
         with:
-          lane: internal_release
+          lane: internal_deploy
           subdirectory: ios
         env:
           APP_STORE_CONNECT_API_KEY_ISSUER_ID: '${{ secrets.APPSTORE_ISSUER_ID }}'
@@ -117,7 +117,7 @@ jobs:
       - name: android::google play internal[fastlane] 
         uses: maierj/fastlane-action@v1.4.0
         with:
-          lane: internal_release
+          lane: internal_deploy
           subdirectory: android
         env:
           ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
