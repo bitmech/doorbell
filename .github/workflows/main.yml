@@ -55,7 +55,7 @@ jobs:
       - run: flutter pub get
       #- run: flutter test
       - run: flutter build appbundle --release
-      #- run: flutter build ios --release --no-codesign
+      - run: flutter build ios --release --no-codesign
       #- run: flutter build ipa
         env:
           ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
