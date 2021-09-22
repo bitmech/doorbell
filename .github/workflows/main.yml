@@ -48,9 +48,10 @@ jobs:
           ANDROID_PLAYSTORE_CONFIG_JSON: ${{ secrets.ANDROID_PLAYSTORE_CONFIG_JSON }}
           ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME: ${{ secrets.ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME }}
       
-      - uses: subosito/flutter-action@v1
+      - name: setup flutter
+        uses: subosito/flutter-action@v1
 
-      - name: 'android::build'
+      - name: 'android::build[fastlane]'
         uses: maierj/fastlane-action@v1.4.0
         with:
           lane: build_release
@@ -69,7 +70,7 @@ jobs:
           name: release-android
           path: build/app/outputs
 
-      - name: 'ios::build'
+      - name: 'ios::build[fastlane]'
         uses: maierj/fastlane-action@v1.4.0
         with:
           lane: build_release
@@ -94,7 +95,7 @@ jobs:
           name: release-ios
           path: ios
 
-      - name: ios::Fastlane (upload to testflight) 
+      - name: ios::testflight[fastlane] 
         uses: maierj/fastlane-action@v1.4.0
         with:
           lane: internal_release
@@ -113,7 +114,7 @@ jobs:
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
 
       
-      - name: android::Fastlane (upload to google play) 
+      - name: android::google play internal[fastlane] 
         uses: maierj/fastlane-action@v1.4.0
         with:
           lane: internal_release
@@ -126,7 +127,7 @@ jobs:
           ANDROID_KEYSTORE_FILENAME: ${{ secrets.ANDROID_KEYSTORE_FILENAME }}
           ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME: ${{ secrets.ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME }}
 
-      - name: ios::cleanup fastlane 
+      - name: ios::cleanup[fastlane]
         uses: maierj/fastlane-action@v1.4.0
         with:
           lane: cleanup
