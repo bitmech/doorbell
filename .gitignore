@@ -49,3 +49,6 @@ app.*.map.json
 *.jks
 *.keystore
 
+#Ruby gem lock
+Gemfile.lock
+

@@ -48,20 +48,19 @@ jobs:
           ANDROID_PLAYSTORE_CONFIG_JSON: ${{ secrets.ANDROID_PLAYSTORE_CONFIG_JSON }}
           ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME: ${{ secrets.ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME }}
       
-      - name: 'flutter build'
+      - name: 'android::build'
         uses: subosito/flutter-action@v1
+        uses: maierj/fastlane-action@v1.4.0
         with:
-          flutter-version: '2.0.5'
-      - run: flutter pub get
-      #- run: flutter test
-      - run: flutter build appbundle --release
+          lane: build_release
+          subdirectory: android
         env:
           ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
           ANDROID_KEYSTORE_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
           ANDROID_KEYSTORE_KEY_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_KEY_PASSWORD }}
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEYSTORE_FILENAME: ${{ secrets.ANDROID_KEYSTORE_FILENAME }}
-      - run: flutter build ios --release --no-codesign
+
 
       - name: android::Publish android Artifacts
         uses: actions/upload-artifact@v1
@@ -69,16 +68,36 @@ jobs:
           name: release-android
           path: build/app/outputs
 
+      - name: 'ios::build'
+        uses: subosito/flutter-action@v1
+        uses: maierj/fastlane-action@v1.4.0
+        with:
+          lane: build_release
+          subdirectory: ios
+        env:
+          APP_STORE_CONNECT_API_KEY_ISSUER_ID: '${{ secrets.APPSTORE_ISSUER_ID }}'
+          APP_STORE_CONNECT_API_KEY_KEY_ID: '${{ secrets.APPSTORE_KEY_ID }}'
+          APP_STORE_CONNECT_API_KEY_KEY: '${{ secrets.APPSTORE_PRIVATE_KEY }}'
+          APP_APPLE_ID: '${{ secrets.APP_APPLE_ID }}'
+          BUNDLE_ID: '${{ secrets.BUNDLE_ID }}'
+          FASTLANE_APPLE_ID: '${{ secrets.APPLE_ID }}'
+          MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+          GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+          PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+          TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+
+
       - name: ios::Publish iOS Artifacts
         uses: actions/upload-artifact@v1
         with:
           name: release-ios
           path: ios
 
-      - name: ios::Fastlane (archive, sign, upload to testflight) 
+      - name: ios::Fastlane (upload to testflight) 
         uses: maierj/fastlane-action@v1.4.0
         with:
-          lane: closed_beta
+          lane: internal_release
           subdirectory: ios
         env:
           APP_STORE_CONNECT_API_KEY_ISSUER_ID: '${{ secrets.APPSTORE_ISSUER_ID }}'
@@ -94,10 +113,10 @@ jobs:
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
 
       
-      - name: android::Fastlane (sign, upload to google play) 
+      - name: android::Fastlane (upload to google play) 
         uses: maierj/fastlane-action@v1.4.0
         with:
-          lane: closed_beta
+          lane: internal_release
           subdirectory: android
         env:
           ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
@@ -106,6 +125,12 @@ jobs:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEYSTORE_FILENAME: ${{ secrets.ANDROID_KEYSTORE_FILENAME }}
           ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME: ${{ secrets.ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME }}
+
+      - name: ios::cleanup fastlane 
+        uses: maierj/fastlane-action@v1.4.0
+        with:
+          lane: cleanup
+          subdirectory: ios
 
 
 

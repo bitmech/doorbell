@@ -30,32 +30,33 @@ platform :android do
     # You can also use other beta testing services here
   end
 
-  desc "Build alpha version"
-  lane :alpha do
+  desc "Build a release version"
+  lane :build_release do
+    Dir.chdir "../.." do
+      sh("flutter", "pub", "get") #Get latest libs
+      sh("flutter", "build", "appbundle", "--release")  #Call Flutter Build
+    end
     gradle(
-    task: "bundle",
-    build_type: 'Release'
+      task: "bundle",
+      build_type: 'Release'
     )
   end
 
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
-  end
-
-  desc "Deploy a alpha version to Google Play"
-  lane :closed_beta do
+  desc "Deploy a internal version to Google Play"
+  lane :internal_deploy do
     validate_play_store_json_key(
       json_key: ENV["ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME"]
     )
     changelog_from_git_commits
-    supply(track: "alpha", 
-            aab:"../build/app/outputs/bundle/release/app-release.aab",
-            skip_upload_metadata: true,
-            skip_upload_images: true,
-            skip_upload_screenshots: true,
-            skip_upload_apk: true,
-	    release_status: 'draft')
+    supply(
+      track: "internal", 
+      aab:"../build/app/outputs/bundle/release/app-release.aab",
+      version_code: flutter_version()["version_code"],
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_apk: true,
+	    release_status: 'draft'
+    )
   end
 end
