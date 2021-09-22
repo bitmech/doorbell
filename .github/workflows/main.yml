@@ -101,7 +101,7 @@ jobs:
       - name: android::Fastlane (sign, upload to google play) 
         uses: maierj/fastlane-action@v1.4.0
         with:
-          #lane: closed_beta
+          lane: closed_beta
           subdirectory: android
         env:
           ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
