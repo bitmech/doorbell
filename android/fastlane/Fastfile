@@ -33,6 +33,7 @@ platform :android do
   desc "Build a release version"
   lane :build_release do
     Dir.chdir "../.." do
+      sh("flutter", "config", "--no-analytics")
       sh("flutter", "pub", "get") #Get latest libs
       sh("flutter", "build", "appbundle", "--release")  #Call Flutter Build
     end
