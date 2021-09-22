@@ -81,7 +81,7 @@ jobs:
 
       - name: ios::Fastlane (archive, sign, upload to testflight) 
         uses: maierj/fastlane-action@v1.4.0
-        witr:
+        with:
           lane: closed_beta
           subdirectory: ios
         env:
