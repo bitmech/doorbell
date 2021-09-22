@@ -68,7 +68,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: release-android
-          path: android
+          path: build/app/outputs 
 
 
       #- name: ios::Fastlane (archive, sign, upload to testflight) 
