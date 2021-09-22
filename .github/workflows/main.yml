@@ -48,9 +48,10 @@ jobs:
           ANDROID_PLAYSTORE_CONFIG_JSON: ${{ secrets.ANDROID_PLAYSTORE_CONFIG_JSON }}
           ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME: ${{ secrets.ANDROID_PLAYSTORE_CONFIG_JSON_FILENAME }}
       
-      - name: 'android::build'
       - uses: subosito/flutter-action@v1
-      - uses: maierj/fastlane-action@v1.4.0
+
+      - name: 'android::build'
+        uses: maierj/fastlane-action@v1.4.0
         with:
           lane: build_release
           subdirectory: android
@@ -69,8 +70,7 @@ jobs:
           path: build/app/outputs
 
       - name: 'ios::build'
-      - uses: subosito/flutter-action@v1
-      - uses: maierj/fastlane-action@v1.4.0
+        uses: maierj/fastlane-action@v1.4.0
         with:
           lane: build_release
           subdirectory: ios
